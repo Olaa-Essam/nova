@@ -18,6 +18,7 @@ function Cart() {
     cartTotal,
     removeFromCart,
     updateQuantity,
+    clearCart,
   } = useShop();
 
   if (cart.length === 0) {
@@ -93,6 +94,8 @@ function Cart() {
                           )
                         }
                         disabled={item.quantity === 1}
+                        type="button"
+                        aria-label="Decrease quantity"
                       >
                         <FaMinus />
                       </button>
@@ -109,6 +112,8 @@ function Cart() {
                         disabled={
                           item.quantity >= item.stock
                         }
+                        type="button"
+                        aria-label="Increase quantity"
                       >
                         <FaPlus />
                       </button>
@@ -119,6 +124,7 @@ function Cart() {
                       onClick={() =>
                         removeFromCart(item.id)
                       }
+                      type="button"
                     >
                       <FaTrash />
                       Remove
@@ -137,7 +143,17 @@ function Cart() {
           </div>
 
           <aside className="cart-summary">
-            <h2>Order summary</h2>
+            <div className="summary-heading">
+              <h2>Order summary</h2>
+
+              <button
+                className="clear-cart-btn"
+                onClick={clearCart}
+                type="button"
+              >
+                Clear cart
+              </button>
+            </div>
 
             <div className="summary-row">
               <span>Items</span>
@@ -151,7 +167,7 @@ function Cart() {
 
             <div className="summary-row">
               <span>Delivery</span>
-              <span>Free</span>
+              <span>Calculated at checkout</span>
             </div>
 
             <div className="summary-divider"></div>
@@ -161,9 +177,12 @@ function Cart() {
               <strong>${cartTotal.toFixed(2)}</strong>
             </div>
 
-            <button className="checkout-btn">
+            <Link
+              to="/checkout"
+              className="checkout-btn"
+            >
               Proceed to checkout
-            </button>
+            </Link>
 
             <Link
               to="/"

@@ -74,6 +74,10 @@ export function ShopProvider({ children }) {
     );
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   const toggleFavorite = (productId) => {
     setFavorites((prevFavorites) => {
       if (prevFavorites.includes(productId)) {
@@ -107,6 +111,7 @@ export function ShopProvider({ children }) {
     addToCart,
     removeFromCart,
     updateQuantity,
+    clearCart,
 
     toggleFavorite,
     isFavorite,

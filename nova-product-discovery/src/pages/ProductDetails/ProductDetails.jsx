@@ -24,6 +24,7 @@ function ProductDetails() {
   } = useShop();
 
   const [product, setProduct] = useState(null);
+  const [selectedImage, setSelectedImage] = useState("");
   const [quantity, setQuantity] = useState(1);
 
   const [loading, setLoading] = useState(true);
@@ -46,6 +47,8 @@ function ProductDetails() {
         const data = await response.json();
 
         setProduct(data);
+        setSelectedImage(data.thumbnail);
+        setQuantity(1);
       } catch (error) {
         setError("Unable to load this product.");
       } finally {
@@ -76,6 +79,7 @@ function ProductDetails() {
     return (
       <div className="details-state">
         <div className="loader"></div>
+
         <p>Loading product...</p>
       </div>
     );
@@ -112,22 +116,27 @@ function ProductDetails() {
           <div className="details-image-section">
             <div className="details-image">
               <img
-                src={product.thumbnail}
+                src={selectedImage || product.thumbnail}
                 alt={product.title}
               />
             </div>
 
             <div className="details-thumbnails">
               {product.images?.slice(0, 4).map((image, index) => (
-                <div
-                  className="details-thumbnail"
+                <button
+                  className={`details-thumbnail ${
+                    selectedImage === image ? "active" : ""
+                  }`}
                   key={index}
+                  onClick={() => setSelectedImage(image)}
+                  type="button"
+                  aria-label={`View product image ${index + 1}`}
                 >
                   <img
                     src={image}
                     alt={`${product.title} ${index + 1}`}
                   />
-                </div>
+                </button>
               ))}
             </div>
           </div>
@@ -166,6 +175,7 @@ function ProductDetails() {
             <div className="details-meta">
               <div>
                 <span>Brand</span>
+
                 <strong>
                   {product.brand || "NOVA"}
                 </strong>
@@ -173,6 +183,7 @@ function ProductDetails() {
 
               <div>
                 <span>Availability</span>
+
                 <strong>
                   {product.stock > 0
                     ? `${product.stock} in stock`
@@ -187,6 +198,8 @@ function ProductDetails() {
                   <button
                     onClick={handleDecrease}
                     disabled={quantity === 1}
+                    type="button"
+                    aria-label="Decrease quantity"
                   >
                     <FaMinus />
                   </button>
@@ -196,6 +209,8 @@ function ProductDetails() {
                   <button
                     onClick={handleIncrease}
                     disabled={quantity >= product.stock}
+                    type="button"
+                    aria-label="Increase quantity"
                   >
                     <FaPlus />
                   </button>
@@ -204,6 +219,7 @@ function ProductDetails() {
                 <button
                   className="add-cart-btn"
                   onClick={handleAddToCart}
+                  type="button"
                 >
                   <FaShoppingBag />
                   Add to cart
@@ -219,6 +235,7 @@ function ProductDetails() {
                     toggleFavorite(product.id)
                   }
                   aria-label="Toggle favorite"
+                  type="button"
                 >
                   <FaHeart />
                 </button>

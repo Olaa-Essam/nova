@@ -9,6 +9,7 @@ import Categories from "./pages/Categories/Categories";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Cart from "./pages/Cart/Cart";
 import Favorites from "./pages/Favorites/Favorites";
+import Checkout from "./pages/Checkout/Checkout";
 
 import "./App.css";
 
@@ -49,6 +50,12 @@ function App() {
               <Route
                 path="/favorites"
                 element={<Favorites />}
+              />
+
+              {/* Checkout */}
+              <Route
+                path="/checkout"
+                element={<Checkout />}
               />
             </Routes>
           </main>
